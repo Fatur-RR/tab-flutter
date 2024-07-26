@@ -1,25 +1,91 @@
 import 'package:flutter/material.dart';
 
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:2050398345.
-// Suggested code may be subject to a license. Learn more: ~LicenseLog:1121682271.
+import './hal_komputer.dart' as komputer;
+import './hal_headset.dart' as headset;
+import './hal_radio.dart' as radio;
+import './hal_smartphone.dart' as hp;
+
 void main() {
   runApp(
-    MaterialApp(
-      home: MyApp(),
+    new MaterialApp(
+      title: "Tab Bar",
+      home: new home(),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
+class home extends StatefulWidget {
+  @override
+  _homeState createState() => new _homeState();
+}
+
+class _homeState extends State<home> with SingleTickerProviderStateMixin {
+  late TabController controller;
+  @override
+  void initState() {
+    controller = new TabController(vsync: this, length: 4);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('My App'),
-        backgroundColor: Colors.blue,
+    return new Scaffold(
+      appBar: new AppBar(
+        backgroundColor: Colors.amber,
+        title: new Text("Daftar Elektronik"),
+        bottom: new TabBar(
+          controller: controller,
+          tabs: <Widget>[
+            new Tab(
+              icon: new Icon(Icons.computer),text: "Komputer",
+            ),
+            new Tab(
+              icon: new Icon(Icons.headset),text: "Headset",
+            ),
+            new Tab(
+              icon: new Icon(Icons.radio),text: "Radio",
+            ),
+            new Tab(
+              icon: new Icon(Icons.smartphone),text: "Smartphone",
+            ),
+          ],
+        ),
       ),
-      body: Center(
-        child: Text('Hello World'),
+      body: new TabBarView(
+        controller: controller,
+        children: <Widget>[
+          new komputer.Komputer(),
+          new headset.Headset(),
+          new radio.Radio(),
+          new hp.Smartphone(),
+        ],
+      ),
+
+      bottomNavigationBar: new Material(
+        color: Colors.amber,
+        child: new TabBar(
+          controller: controller,
+          tabs: <Widget>[
+            new Tab(
+              icon: new Icon(Icons.computer),
+            ),
+            new Tab(
+              icon: new Icon(Icons.headset),
+            ),
+            new Tab(
+              icon: new Icon(Icons.radio),
+            ),
+            new Tab(
+              icon: new Icon(Icons.smartphone),
+            ),
+          ],
+        ),
       ),
     );
   }
